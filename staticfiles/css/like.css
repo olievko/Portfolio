@@ -1,0 +1,44 @@
+input[type=submit], a.button {
+    font-weight:bold;
+    background:#12c064;
+    color:#fff;
+    padding:10px 20px;
+    font-size:14px;
+    text-transform:uppercase;
+}
+
+/* images */
+
+.image-info div {
+    padding:20px 0;
+    overflow:auto;
+}
+
+.count {
+    color:#aaa;
+    border:3px solid #bbb;
+    border-radius:26px;
+    padding:10px 20px;
+    margin:20px 10px 0;
+}
+
+a.like, a.follow { float:right; margin-top:-8px; }
+
+#image-list img { width:220px; height:220px; }
+
+#image-list .info { padding:10px; }
+
+#image-list .info a { color:#333; }
+
+.image-likes div {
+    float:left;
+    width:auto;
+    padding:10px;
+    text-align:center;
+}
+
+.image-likes img {
+    width:120px;
+    height:120px;
+    border-radius:50%;
+}

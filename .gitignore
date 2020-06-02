@@ -52,7 +52,6 @@ coverage.xml
 .pytest_cache/
 
 # Translations
-*.mo
 *.pot
 
 # Django stuff:
@@ -102,6 +101,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+my_venv
 .env
 .venv
 env/
@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/static

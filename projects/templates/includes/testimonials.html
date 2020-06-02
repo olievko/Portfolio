@@ -1,0 +1,8 @@
+{% load i18n %}
+<h3 class="w3-padding-24">{% trans 'My Reputation' %}</h3>
+
+    {% for testimonial in testimonials %}
+    <img src="{{ testimonial.photo_clients.url }}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+    <p><span class="w3-large w3-text-black w3-margin-right">{{ testimonial.first_name_client }} {{ testimonial.last_name_client }}.</span> {{ testimonial.position_client }}.</p>
+    <p>{{ testimonial.body }}</p><br>
+    {% endfor %}

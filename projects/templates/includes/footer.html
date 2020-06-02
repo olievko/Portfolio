@@ -1,0 +1,25 @@
+{% load i18n %}
+{% with personal_info|first as personal_info %}
+<footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-opacity w3-xlarge" style="margin:-24px">
+    {% if personal_info.facebook %}
+    <a href="{{ personal_info.facebook }}"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+    {% endif %}
+    {% if personal_info.instagram %}
+    <a href="{{ personal_info.instagram }}"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+    {% endif %}
+    {% if personal_info.skype %}
+    <a href="{{ personal_info.skype }}"><i class="fa fa-skype w3-hover-opacity"></i></a>
+    {% endif %}
+    {% if personal_info.pinterest %}
+    <a href="{{ personal_info.pinterest }}"><i class="fa fa-pinterest-p w3-hover-opacity"></i></a>
+    {% endif %}
+    {% if personal_info.twitter %}
+    <a href="{{ personal_info.twitter }}"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+    {% endif %}
+    {% if personal_info.linkedin %}
+    <a href="{{ personal_info.linkedin }}"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+    {% endif %}
+    <p class="w3-medium">Powered by <a href="#" target="_blank" class="w3-hover-text-green" style="text-decoration:none;"><strong>OLIEVKO-GROUP</strong></a></p>
+  <!-- End footer -->
+</footer>
+{% endwith %}

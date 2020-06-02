@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+{% load i18n %}
+{% block page %}
+
+<div class="w3-padding-32 w3-content" id="portfolio">
+    <hr class="w3-opacity">
+    <div class="w3-row-padding w3-center" style="margin:0 -16px">
+        <h3>{% trans 'Your message successfully has been sent!' %}</h3>
+        <button class="w3-button w3-light-grey w3-padding-large w3-margin-top">
+            <a href="{% url 'index' %}" style="text-decoration: none">Back to Home</a>
+        </button>
+    </div>
+</div>
+
+{% endblock page %}

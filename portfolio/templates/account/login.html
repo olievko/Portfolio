@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock %}
+{% block title %}{% trans 'Login' %}{% endblock %}
+{% load crispy_forms_tags %}
+{% block page %}
+<form  class="modal-content" action="{% url 'account_login' %}" method="post">
+    <div class="container">
+        <h1>{% trans 'Login Form' %}</h1>
+        {% if form.errors %}
+            <p>{% blocktrans %}Your username and password didn't match.Please try again.{% endblocktrans %}</p>
+        {% else %}
+            <p>{% blocktrans %}Please, use the following form to login.{% endblocktrans %}</p>
+        {% endif %}
+            <hr>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit">{% trans 'Login' %}</button>
+        <p>{% blocktrans %}Don't have an account yet? {% endblocktrans %}<a href="{% url 'account_signup' %}">{% trans 'Sign up' %}</a></p>
+        <p><a href="{% url 'account_reset_password' %}" >{% blocktrans %}Forgot your password?{% endblocktrans %}</a></p>
+    </div>
+</form>
+{% endblock page %}

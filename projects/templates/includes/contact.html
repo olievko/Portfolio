@@ -1,0 +1,33 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block contact %}
+<div class="w3-padding-32 w3-content w3-text-grey" id="contact" style="margin-bottom:64px">
+  <h2>{% trans 'Contact Me' %}</h2>
+      <hr class="w3-opacity">
+      <div class="w3-section">
+          {% with personal_info|first as personal_info %}
+          {% if personal_info.locality and personal_info.country %}
+          <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i>{{personal_info.locality}}, {{personal_info.country}}</p>
+          {% endif %}
+          {% if personal_info.phone %}
+        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> {% trans 'Phone' %}: <a href="tel:+380{{ personal_info.phone }}" style="text-decoration: none;">+380 {{personal_info.phone}}</a></p>
+          {% endif %}
+          {% if personal_info.email %}
+        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"></i> {% trans 'Email' %}: <a href="mailto:{{ personal_info.email }}" style="text-decoration: none;">{{ personal_info.email }}</a></p>
+          {% endif %}
+      </div>
+          {% endwith %}
+      <br>
+      <p>{% trans 'Lets get in touch. Send me a message:' %}</p>
+      <div class="container">
+          <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <button class="w3-button w3-light-grey w3-padding-large" type="submit" name="send">
+                    <i class="fa fa-paper-plane"></i> {% trans 'SEND' %}
+                </button>
+          </form>
+      </div>
+</div>
+{% endblock contact %}

@@ -1,0 +1,119 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/like.css' %}">
+{% endblock %}
+{% block title %}Project detail{% endblock %}
+{% load crispy_forms_tags %}
+{% block portfolio %}
+<h3 class="w3-text-grey"><b>{{ project.title }}</b></h3>
+<p class="w3-text-grey">{% trans 'Technology used' %}: {{ project.technology }}</p>
+<div class="w3-row-padding" style="margin:0 -16px">
+    <div class="w3-half">
+        {% for item in images %}
+            <img src="{{ item.image.url }}" alt="{{ item.caption }}" width="100%" style="border: 2px solid">
+        {% endfor %}
+        <div class="w3-center">
+            <button class="w3-button w3-light-grey w3-padding-large w3-margin-top">
+                <a href="{% url 'index' %}" style="text-decoration: none">{% trans 'Back to Portfolio' %}</a>
+            </button>
+
+            <h5 class="w3-text-grey">{% trans 'Top 5 most popular projects:' %}</h5>
+            <ol>
+                {% for project in most_viewed %}
+                <li>
+                    <a href="{{ project.get_absolute_url }}" class="w3-text-grey"><b>{{ project.title }}</b></a>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="w3-half w3-text-grey">
+        <h5>{% trans 'About the project:' %}</h5>
+        <p>{{ project.description }}</p>
+        <hr>
+
+        {% with total_likes=project.users_like.count users_like=project.users_like.all %}
+        <div class="image-info">
+            <div>
+                <span class="count">
+                    <span class="total">{{ total_likes }}</span>
+                    like{{ total_likes|pluralize }}
+                </span>
+                <span class="count">
+                    {{ total_views }} {% trans 'views' %}
+                </span>
+                {% if user.is_authenticated %}
+                    <a href="#" data-id="{{ project.id }}"
+                       data-action="{% if request.user in users_like %}un{% endif %}like" class="like button w3-round-xxlarge" style="text-decoration:none">
+                    {% if request.user not in users_like %}
+                        Like
+                    {% else %}
+                        Unlike
+                    {% endif %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endwith %}
+
+
+        <hr>
+        {% with comments.count as total_comments %}
+        <h5>{{ total_comments }} {% trans 'comments' %}</h5>
+        {% endwith %}
+
+         {% for comment in comments %}
+            <p><b>{% trans 'Comment' %} {{ forloop.counter }} {% trans 'by' %} {{ comment.name }} {{ comment.created }}</b></p>
+            {{ comment.body|linebreaks }}
+            {% empty %}
+            <p>{% trans 'There are no comments yet.' %}</p>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            {% if new_comment %}
+                <h5>{% trans 'Your comment has been added !' %}</h5>
+            {% else %}
+                <hr>
+                <h5>{% trans 'Add a new comment' %}</h5>
+                <form action="." method="post">
+                    {{ comment_form|crispy }}
+                    {% csrf_token %}
+                    <br>
+                    <button type="submit" name="add" class="w3-button w3-light-grey w3-padding-large">{% trans 'Add' %}</button>
+                </form>
+            {% endif %}
+        {% else %}
+        <h5>{% trans 'Please' %}, <a href="{% url 'account_login' %}"><b>{% trans 'Login' %}</b></a> {% trans 'or' %} <a href="{% url 'account_signup' %}"><b>{% trans 'Sign up' %}</b></a> {% trans 'to add' %} <b>{% trans 'Comment' %}</b> {% trans 'and' %} <b>Like !</b></h5>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock portfolio %}
+
+
+{% block domready %}
+  $('a.like').click(function(e){
+    e.preventDefault();
+    $.post('{% url "like" %}',
+      {
+        id: $(this).data('id'),
+        action: $(this).data('action')
+      },
+      function(data){
+        if (data['status'] == 'ok')
+        {
+          var previous_action = $('a.like').data('action');
+          // toggle data-action
+          $('a.like').data('action', previous_action == 'like' ? 'unlike' : 'like');
+          // toggle link text
+          $('a.like').text(previous_action == 'like' ? 'Unlike' : 'Like');
+          // update total likes
+          var previous_likes = parseInt($('span.count .total').text());
+          $('span.count .total').text(previous_action == 'like' ? previous_likes + 1 : previous_likes - 1);
+        }
+      }
+    );
+  });
+{% endblock %}
